@@ -61,13 +61,8 @@ public class EstadoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-
-        if (!estadoService.buscarPorId(id).isPresent()) {
-            return ResponseEntity.notFound().build();
-        }
-        estadoService.deleteById(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+         return estadoService.deleteById(id);
     }
 
 

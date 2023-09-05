@@ -3,6 +3,7 @@ package br.com.terceiroperiodo.service;
 import br.com.terceiroperiodo.model.Estado;
 import br.com.terceiroperiodo.repository.EstadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,9 +38,17 @@ public class EstadoService {
         return estadoRepository.findByNomeAndAtivo(nome, true);
     }
 
-    public void deleteById(Long id) {
-        estadoRepository.deleteById(id);
-    }
+    public ResponseEntity<?> deleteById(Long id) {
 
+        Optional<Estado> response = buscarPorId(id);
+
+        if (!response.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        response.get().setAtivo(false);
+
+        return ResponseEntity.ok(estadoRepository.save(response.get())) ;
+    }
 
 }
