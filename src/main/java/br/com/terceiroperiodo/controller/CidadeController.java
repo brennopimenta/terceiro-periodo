@@ -32,9 +32,12 @@ public class CidadeController {
     }
 
     @GetMapping(path = "/pageable/all", produces = "application/json")
-    public ResponseEntity<Page<Cidade>> buscarTodosPaginado(@RequestParam Integer page, @RequestParam Integer size){
+    public ResponseEntity<Page<Cidade>> buscarTodosPaginado(
+            @RequestParam Integer page,
+            @RequestParam Integer size){
 
-        Page<Cidade> response = cidadeService.getAllCidadesByPage(page, size);
+        Page<Cidade> response = cidadeService.
+                getAllCidadesByPage(page, size);
         return ResponseEntity.ok(response);
     }
 

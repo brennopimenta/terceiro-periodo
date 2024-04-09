@@ -1,9 +1,9 @@
 package br.com.terceiroperiodo.service;
 
 import br.com.terceiroperiodo.client.PhotoClient;
+import br.com.terceiroperiodo.exception.InvalidPhotoException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +21,7 @@ public class PhotoConsumerService {
             return ResponseEntity.ok(response);
         } catch (Exception e){
             log.error("buscarPhotoPorId() - [ERRO] - <{}>", e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            throw new InvalidPhotoException("Busca de photo com problemas");
         }
     }
 
