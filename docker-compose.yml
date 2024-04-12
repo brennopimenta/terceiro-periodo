@@ -1,0 +1,34 @@
+version: '3'
+
+networks:
+  production-network:
+    driver:
+      bridge
+
+services:
+
+  postgres:
+    container_name: postgres
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_DB=terceiro_periodo
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    networks:
+      - production-network
+
+  node1:
+    build:
+      dockerfile: ./
+      context: .
+    image: brennocosta/api-terceiro-periodo
+    container_name: api-terceiro-periodo
+    ports:
+      - "8080"
+    networks:
+      - production-network
+    depends_on:
+      - "postgres"
