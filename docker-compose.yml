@@ -1,34 +1,33 @@
-version: '3'
-
-networks:
-  production-network:
-    driver:
-      bridge
-
+version: '3.8'
 services:
+  api-terceiro:
+    container_name: api-terceiro-periodo
+    image: brennocosta/api-terceiro-periodo:latest
+    ports:
+      - "8080:8080"
+    networks:
+      - rede1
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/terceiro_periodo
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
 
-  postgres:
-    container_name: postgres
+  db:
     image: postgres:latest
-    restart: always
+    container_name: postgres
+    networks:
+      - rede1
     environment:
       - POSTGRES_DB=terceiro_periodo
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-    ports:
-      - '5432:5432'
-    networks:
-      - production-network
+    volumes:
+      - dados-db:/var/lib/postgresql/data
 
-  node1:
-    build:
-      dockerfile: ./
-      context: .
-    image: brennocosta/api-terceiro-periodo
-    container_name: api-terceiro-periodo
-    ports:
-      - "8080"
-    networks:
-      - production-network
-    depends_on:
-      - "postgres"
+networks:
+  rede1:
+
+volumes:
+  dados-db:
